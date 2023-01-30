@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ASP.Models
 {
     public class Movie
     {
         [Key]
-        public int Id { get; set; }
+        public int id { get; set; }
 
         public string name { get; set; }
 
@@ -13,10 +14,7 @@ namespace ASP.Models
         public double Price { get; set; }
 
 
-        public DateTime StartDate { get; set; }
-
-
-        public DateTime EndDate { get; set; }
+        //Relationships
 
 
     }
