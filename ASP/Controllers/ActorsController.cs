@@ -20,9 +20,16 @@ namespace ASP.Controllers
         }
 
         // GET: Actors
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchField)
         {
-            return View(await _context.Actor.Where(a => !a.IsDeleted).ToListAsync());
+           List<Actor> actors  = await _context.Actor.Where(a => !a.IsDeleted).ToListAsync();
+
+
+            if (!string.IsNullOrEmpty(searchField))
+                actors = actors.Where(a => a.FullName.Contains(searchField)).ToList();
+
+            ViewData["searchField"] = searchField;
+            return View(actors);
         }
 
         // GET: Actors/Details/5
