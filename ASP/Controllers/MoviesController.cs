@@ -28,14 +28,10 @@ namespace ASP.Controllers
                 .Include(o => o.Actors)
                 .ToListAsync();
 
+            if (!string.IsNullOrEmpty(searchField))
+               movies = movies.Where(m => m.name.Contains(searchField)).ToList();
+
             ViewData["searchField"] = searchField;
-            var moviess = from m in _context.Movie
-                         select m;
-            if (!String.IsNullOrEmpty(searchField))
-            {
-                moviess = moviess.Where(m => m.name.Contains(searchField));
-                
-            }
             return View(movies);
         }
 
