@@ -23,14 +23,14 @@ namespace ASP.Controllers
         public async Task<IActionResult> Index(string searchField)
         {
 
-            //return View(await _context.Movie.Include(o => o.Actors).ToListAsync());
+         List<Movie> movies = await _context.Movie.Include(o => o.Actors).ToListAsync();
 
             ViewData["searchField"] = searchField;
-            var movies = from m in _context.Movie
+            var moviess = from m in _context.Movie
                          select m;
             if (!String.IsNullOrEmpty(searchField))
             {
-                movies = movies.Where(m => m.name.Contains(searchField));
+                moviess = moviess.Where(m => m.name.Contains(searchField));
                 
             }
             return View(movies);
@@ -57,7 +57,7 @@ namespace ASP.Controllers
         // GET: Movies/Create
         public IActionResult Create()
         {
-            ViewData["ActorId"] = new SelectList(_context.Actor, "ActorId", "FullName");
+            ViewData["Actor"] = new SelectList(_context.Set<Actor>(), "Id", "FullName");
             return View();
         }
 
@@ -74,7 +74,7 @@ namespace ASP.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ActorId"] = new SelectList(_context.Actor, "ActorId", "FullName");
+            
             return View(movie);
         }
 
@@ -91,6 +91,7 @@ namespace ASP.Controllers
             {
                 return NotFound();
             }
+            ViewData["Actor"] = new SelectList(_context.Set<Actor>(), "Id", "FullName");
             return View(movie);
         }
 
@@ -126,6 +127,7 @@ namespace ASP.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ActorId"] = new SelectList(_context.Set<Actor>(), "Id", "FullName");
             return View(movie);
         }
 
