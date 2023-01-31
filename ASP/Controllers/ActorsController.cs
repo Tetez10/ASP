@@ -22,7 +22,7 @@ namespace ASP.Controllers
         // GET: Actors
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Actor.ToListAsync());
+            return View(await _context.Actor.Where(a => !a.IsDeleted).ToListAsync());
         }
 
         // GET: Actors/Details/5
@@ -144,10 +144,11 @@ namespace ASP.Controllers
                 return Problem("Entity set 'ApplicationDbContext.Actor'  is null.");
             }
             var actor = await _context.Actor.FindAsync(id);
-            if (actor != null)
-            {
-                _context.Actor.Remove(actor);
-            }
+            actor.IsDeleted = true;
+            //if (actor != null)
+            //{
+            //    _context.Actor.Remove(actor);
+            //}
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

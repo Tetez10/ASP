@@ -13,6 +13,8 @@ namespace ASP.Models
         public string description { get; set; }
         public double Price { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         [Display(Name = "Actor")]
         public int? ActorId { get; set; }
         [ForeignKey("ActorId")]

@@ -22,7 +22,7 @@ namespace ASP.Controllers
         // GET: Cinemas
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Cinema.ToListAsync());
+              return View(await _context.Cinema.Where(c => !c.IsDeleted).ToListAsync());
         }
 
         // GET: Cinemas/Details/5
@@ -144,10 +144,12 @@ namespace ASP.Controllers
                 return Problem("Entity set 'ApplicationDbContext.Cinema'  is null.");
             }
             var cinema = await _context.Cinema.FindAsync(id);
-            if (cinema != null)
-            {
-                _context.Cinema.Remove(cinema);
-            }
+
+            cinema.IsDeleted  = true;
+            //if (cinema != null)
+            //{
+            //    _context.Cinema.Remove(cinema);
+            //}
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

@@ -23,7 +23,10 @@ namespace ASP.Controllers
         public async Task<IActionResult> Index(string searchField)
         {
 
-         List<Movie> movies = await _context.Movie.Include(o => o.Actors).ToListAsync();
+         List<Movie> movies = await _context.Movie
+                .Where(o =>!o.IsDeleted)
+                .Include(o => o.Actors)
+                .ToListAsync();
 
             ViewData["searchField"] = searchField;
             var moviess = from m in _context.Movie
@@ -159,6 +162,7 @@ namespace ASP.Controllers
                 return Problem("Entity set 'ApplicationDbContext.Movie'  is null.");
             }
             var movie = await _context.Movie.FindAsync(id);
+            movie.IsDeleted = true;
            // if (movie != null)
             //{
             //    _context.Movie.Remove(movie);
