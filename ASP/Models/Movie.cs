@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ASP.Models
 {
@@ -12,12 +13,9 @@ namespace ASP.Models
         public string description { get; set; }
         public double Price { get; set; }
 
-
-        public DateTime StartDate { get; set; }
-
-
-        public DateTime EndDate { get; set; }
-
-
+        [Display(Name = "Actor")]
+        public int? ActorId { get; set; }
+        [ForeignKey("ActorId")]
+        public List<Actor>? Actors { get; set; }
     }
 }
