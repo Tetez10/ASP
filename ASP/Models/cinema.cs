@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ASP.Models
 {
@@ -6,8 +7,12 @@ namespace ASP.Models
     {
         [Key]
         public int id { get; set; }
-        public string Logo { get; set; }
         public string Name { get; set; }
-        public string description { get; set; }
+
+
+        [Display(Name = "Movies")]
+        public List<Movie>? movies { get; set; }
+        [NotMapped]
+        public List<int>? MoviesIds { get; set; }
     }
 }
