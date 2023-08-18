@@ -94,13 +94,34 @@ namespace ASP.Data
                 return null;
 
 
+                if (!context.Language.Any())
+                {
+                    // Initialize the languages
+                    context.Language.AddRange
+                        (
+                            new Language() { Id = "-", Name = "-", Cultures = "", IsShown = false },
+                            new Language() { Id = "en", Name = "English", Cultures = "UK;US", IsShown = true },
+                            new Language() { Id = "fr", Name = "français", Cultures = "BE;FR", IsShown = true },
+                            new Language() { Id = "nl", Name = "Nederlands", Cultures = "BE;NL", IsShown = true }
+                        );
+                    context.SaveChanges();
+                }
+
+                Language.Initialize(context);
 
 
             }
+            return null;
+        }
+
+
+
+
+    }
 
         }
-    }
-}
+    
+
 
      
 

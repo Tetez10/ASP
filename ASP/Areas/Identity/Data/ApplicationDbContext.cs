@@ -21,5 +21,6 @@ namespace ASP.Areas.Identity.Data
         public DbSet<Actor> actors { get; set; }
 
         public DbSet<Movie> movies { get; set; }
+        public DbSet<Language> Language { get; set; }
     }
 }

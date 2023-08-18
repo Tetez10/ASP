@@ -2,6 +2,10 @@ using ASP.Areas.Identity.Data;
 using ASP.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Razor;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,10 +18,38 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).
      AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
+
+
+builder.Services.AddLocalization(options =>
+{
+
+    options.ResourcesPath = "Resources";
+});
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+
+    var supportCultures = new[]
+    {
+    new CultureInfo("en-US"),
+    new CultureInfo("fr-FR"),
+    new CultureInfo("nl-NL")
+
+};
+    options.DefaultRequestCulture = new RequestCulture("nl-NL");
+    options.SupportedUICultures = supportCultures;
+});
+
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie();
+
 
 var app = builder.Build();
 
+app.UseRequestLocalization();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -37,6 +69,11 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+
+app.MapDefaultControllerRoute();
+
+
 
 app.MapControllerRoute(
     name: "default",
