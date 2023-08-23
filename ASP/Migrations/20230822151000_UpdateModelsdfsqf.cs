@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ASP.Migrations
 {
-    public partial class test : Migration
+    public partial class UpdateModelsdfsqf : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -76,6 +76,22 @@ namespace ASP.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_cinemas", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "movies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_movies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -184,27 +200,6 @@ namespace ASP.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "movies",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<double>(type: "float", nullable: false),
-                    cinemasid = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_movies", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_movies_cinemas_cinemasid",
-                        column: x => x.cinemasid,
-                        principalTable: "cinemas",
-                        principalColumn: "id");
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -243,11 +238,6 @@ namespace ASP.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_movies_cinemasid",
-                table: "movies",
-                column: "cinemasid");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -271,6 +261,9 @@ namespace ASP.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "cinemas");
+
+            migrationBuilder.DropTable(
                 name: "movies");
 
             migrationBuilder.DropTable(
@@ -278,9 +271,6 @@ namespace ASP.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "cinemas");
         }
     }
 }

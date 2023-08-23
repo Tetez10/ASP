@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ASP.Areas.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ASP.Areas.Identity.Data;
-using ASP.Models;
 
 namespace ASP.Controllers
 {
@@ -22,7 +16,9 @@ namespace ASP.Controllers
         // GET: Movies
         public async Task<IActionResult> Index()
         {
-              return View(await _context.movies.ToListAsync());
+            return _context.movies != null ?
+                        View(await _context.movies.ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.movies'  is null.");
         }
 
         // GET: Movies/Details/5
@@ -54,7 +50,7 @@ namespace ASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,name,description,Price")] Movie movie)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,ReleaseDate")] Movie movie)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +82,7 @@ namespace ASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,name,description,Price")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Price,ReleaseDate")] Movie movie)
         {
             if (id != movie.Id)
             {
@@ -148,14 +144,14 @@ namespace ASP.Controllers
             {
                 _context.movies.Remove(movie);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool MovieExists(int id)
         {
-          return _context.movies.Any(e => e.Id == id);
+            return (_context.movies?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

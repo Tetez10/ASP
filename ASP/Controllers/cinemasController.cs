@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using ASP.Areas.Identity.Data;
+﻿using ASP.Areas.Identity.Data;
 using ASP.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ASP.Controllers
 {
@@ -22,7 +17,7 @@ namespace ASP.Controllers
         // GET: cinemas
         public async Task<IActionResult> Index()
         {
-              return View(await _context.cinemas.ToListAsync());
+            return View(await _context.cinemas.ToListAsync());
         }
 
         // GET: cinemas/Details/5
@@ -148,14 +143,14 @@ namespace ASP.Controllers
             {
                 _context.cinemas.Remove(cinema);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool cinemaExists(int id)
         {
-          return _context.cinemas.Any(e => e.id == id);
+            return _context.cinemas.Any(e => e.id == id);
         }
     }
 }

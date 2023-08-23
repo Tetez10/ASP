@@ -1,6 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 
-
 @inject IViewLocalizer Localizer
 
 @{
@@ -8,13 +7,31 @@
 }
 
 <div class="text-center">
-   
-    <h1>  @Localizer["Welcome"]
-
-   </h1>
+    <h1>@Localizer["Welcome"]</h1>
     <h1>Welcome @User.Identity.Name!</h1>
     <h1>Last Interaction Time: @ViewData["LastInteractionTime"]</h1>
-
-
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+   
 </div>
+
+<h2>Films</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>ReleaseDate</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var movie in Model)
+        {
+            <tr>
+                <td>@movie.Name</td>
+                <td>@movie.Description</td>
+                <td>@movie.Price</td>
+                <td>@movie.ReleaseDate</td>
+            </tr>
+        }
+    </tbody>
+</table>

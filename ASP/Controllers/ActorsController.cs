@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using ASP.Areas.Identity.Data;
+﻿using ASP.Areas.Identity.Data;
 using ASP.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ASP.Controllers
 {
@@ -22,7 +17,7 @@ namespace ASP.Controllers
         // GET: Actors
         public async Task<IActionResult> Index()
         {
-              return View(await _context.actors.ToListAsync());
+            return View(await _context.actors.ToListAsync());
         }
 
         // GET: Actors/Details/5
@@ -148,14 +143,14 @@ namespace ASP.Controllers
             {
                 _context.actors.Remove(actor);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ActorExists(int id)
         {
-          return _context.actors.Any(e => e.id == id);
+            return _context.actors.Any(e => e.id == id);
         }
     }
 }

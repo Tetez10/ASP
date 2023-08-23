@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ASP.Models
 {
@@ -15,7 +13,7 @@ namespace ASP.Models
         public string Bio { get; set; }
 
 
-
-       
+     
     }
 }
+

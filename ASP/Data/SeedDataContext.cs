@@ -1,15 +1,13 @@
 ﻿using ASP.Areas.Identity.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 using ASP.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ASP.Data
 {
     public class SeedDataContext
     {
-        public static async Task<IActionResult> Initialize(IServiceProvider serviceProvider, UserManager<ApplicationUser> userManager)
+        public static async Task Initialize(IServiceProvider serviceProvider, UserManager<ApplicationUser> userManager)
         {
             using (var context = new ApplicationDbContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
             {
@@ -17,6 +15,7 @@ namespace ASP.Data
                 context.Database.EnsureCreated();
 
                 if (!context.Roles.Any())
+
                 {
                     ApplicationUser newman = new ApplicationUser
                     {
@@ -58,70 +57,55 @@ namespace ASP.Data
 
 
 
+
+                // Ajout des rôles et utilisateurs si nécessaire (comme vous l'avez déjà implémenté)
+
+                // Ajout des cinémas si nécessaire
                 if (!context.cinemas.Any())
                 {
-                    context.cinemas.AddRange
-                        (
-                            new cinema { Name = "Ugc" },
-                            new cinema { Name = "Kinepolis" },
-                            new cinema { Name = "OldSchool" }
-                        );
+                    context.cinemas.AddRange(
+                        new cinema { Name = "Ugc" },
+                        new cinema { Name = "Kinepolis" },
+                        new cinema { Name = "OldSchool" },
+                        new cinema { Name = "New Cinema" },
+                        new cinema { Name = "Old Cinema" }
+
+                    );
                     context.SaveChanges();
                 }
 
-                if (!context.movies.Any())
-                {
-                    context.movies.AddRange
-                        (
-                            new Movie { name = "Harry potter", description = "Magic Movie", Price = 15 },
-                            new Movie { name = "Nemo", description = "Fish Movie", Price = 15 }
-
-                        );
-                    context.SaveChanges();
-                }
-
-                
-
-
+                // Ajout des acteurs si nécessaire
                 if (!context.actors.Any())
                 {
-                    context.actors.AddRange
-                        (
-                            new Actor { FullName = "Johnny Depp", Bio = "Great Actor", profilepictureUrl =  "Randonurl" }
-                        );
+                    context.actors.AddRange(
+                        new Actor { FullName = "Johnny Depp", Bio = "Great Actor", profilepictureUrl = "RandomUrl" },
+                        new Actor { FullName = "Max wells", Bio = "Great Actor", profilepictureUrl = "RandomUrl" },
+                        new Actor { FullName = "Waldo Heudens", Bio = "Great Actor", profilepictureUrl = "RandomUrl" },
+                        new Actor { FullName = "Moatez Gnaoua", Bio = "Great Actor", profilepictureUrl = "RandomUrl" },
+                        new Actor { FullName = "Leonardo Di Caprio", Bio = "Great Actor", profilepictureUrl = "RandomUrl" }
+
+                    );
                     context.SaveChanges();
                 }
-                return null;
 
-
-                if (!context.Language.Any())
+                // Ajout des films avec relations acteur et cinéma
+                if (!context.movies.Any())
                 {
-                    // Initialize the languages
-                    context.Language.AddRange
-                        (
-                            new Language() { Id = "-", Name = "-", Cultures = "", IsShown = false },
-                            new Language() { Id = "en", Name = "English", Cultures = "UK;US", IsShown = true },
-                            new Language() { Id = "fr", Name = "français", Cultures = "BE;FR", IsShown = true },
-                            new Language() { Id = "nl", Name = "Nederlands", Cultures = "BE;NL", IsShown = true }
-                        );
+
+                    context.movies.AddRange(
+
+                   new Movie { Name = "Harry Potter", Description = "Magic Movie", Price = 15, ReleaseDate = DateTime.Now.AddDays(7) },
+                   new Movie { Name = "Flashback", Description = "Action", Price = 15, ReleaseDate = DateTime.Now.AddDays(14) },
+                   new Movie { Name = "Lion king", Description = "Lion Film", Price = 15, ReleaseDate = DateTime.Now.AddDays(15) },
+                   new Movie { Name = "Uncharted", Description = "Action", Price = 15, ReleaseDate = DateTime.Now.AddDays(16) },
+                   new Movie { Name = "Nemo", Description = "Fish Movie", Price = 15, ReleaseDate = DateTime.Now.AddDays(12) }
+
+
+
+                    );
                     context.SaveChanges();
                 }
-
-                Language.Initialize(context);
-
-
             }
-            return null;
         }
-
-
-
-
     }
-
-        }
-    
-
-
-     
-
+}
