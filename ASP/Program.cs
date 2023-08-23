@@ -1,5 +1,6 @@
 using ASP.Areas.Identity.Data;
 using ASP.Data;
+using ASP.Middleware;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -94,6 +95,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 
 app.MapControllerRoute(
