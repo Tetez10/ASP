@@ -1,6 +1,11 @@
-﻿using ASP.Areas.Identity.Data;
+﻿ using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ASP.Areas.Identity.Data;
 
 namespace ASP.Controllers
 {
@@ -13,12 +18,24 @@ namespace ASP.Controllers
             _context = context;
         }
 
+        private void HandleResultMessage(bool isSuccess, string successMessage, string errorMessage)
+        {
+            if (isSuccess)
+            {
+                TempData["CreateSuccess"] = successMessage;
+            }
+            else
+            {
+                TempData["ErrorMessage"] = errorMessage;
+            }
+        }
+
         // GET: Movies
         public async Task<IActionResult> Index()
         {
-            return _context.movies != null ?
-                        View(await _context.movies.ToListAsync()) :
-                        Problem("Entity set 'ApplicationDbContext.movies'  is null.");
+              return _context.movies != null ? 
+                          View(await _context.movies.ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.movies'  is null.");
         }
 
         // GET: Movies/Details/5
@@ -56,10 +73,17 @@ namespace ASP.Controllers
             {
                 _context.Add(movie);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                HandleResultMessage(true, "Movie created successfully!", "An error occurred while creating the movie.");
             }
-            return View(movie);
+            else
+            {
+                HandleResultMessage(false, "", "An error occurred while creating the movie.");
+            }
+
+            return RedirectToAction("Index");
         }
+    
 
         // GET: Movies/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -82,6 +106,7 @@ namespace ASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Price,ReleaseDate")] Movie movie)
         {
             if (id != movie.Id)
@@ -109,7 +134,9 @@ namespace ASP.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            TempData["ErrorMessage"] = "An error occurred while updating the movie.";
             return View(movie);
+           
         }
 
         // GET: Movies/Delete/5
@@ -135,6 +162,7 @@ namespace ASP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+
             if (_context.movies == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.movies'  is null.");
@@ -146,12 +174,14 @@ namespace ASP.Controllers
             }
 
             await _context.SaveChangesAsync();
+
+            TempData["DeleteSuccess"] = "Movie deleted successfully!";
             return RedirectToAction(nameof(Index));
         }
 
         private bool MovieExists(int id)
         {
-            return (_context.movies?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.movies?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

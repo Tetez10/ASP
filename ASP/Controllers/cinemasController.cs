@@ -14,6 +14,18 @@ namespace ASP.Controllers
             _context = context;
         }
 
+        private void HandleResultMessage(bool isSuccess, string successMessage, string errorMessage)
+        {
+            if (isSuccess)
+            {
+                TempData["CreateSuccess"] = successMessage;
+            }
+            else
+            {
+                TempData["ErrorMessage"] = errorMessage;
+            }
+        }
+
         // GET: cinemas
         public async Task<IActionResult> Index()
         {

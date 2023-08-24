@@ -42,4 +42,13 @@
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>
+    @if (TempData["CreateSuccess"] != null)
+    {
+        <h4>@TempData["CreateSuccess"]</h4>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <p>@TempData["ErrorMessage"]</p>
+    }
+
 </div>

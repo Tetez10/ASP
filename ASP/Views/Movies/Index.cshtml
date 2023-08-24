@@ -4,6 +4,33 @@
     ViewData["Title"] = "Index";
 }
 
+@if (TempData["CreateSuccess"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["CreateSuccess"]
+    </div>
+}
+
+@if (TempData["EditSuccess"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["EditSuccess"]
+    </div>
+}
+
+@if (TempData["DeleteSuccess"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["DeleteSuccess"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
 <h1>Index</h1>
 
 <p>

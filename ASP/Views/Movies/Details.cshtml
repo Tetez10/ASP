@@ -38,5 +38,15 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+
+    @if (TempData["CreateSuccess"] != null)
+    {
+        <h4>@TempData["CreateSuccess"]</h4>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <p>@TempData["ErrorMessage"]</p>
+    }
+
     <a asp-action="Index">Back to List</a>
 </div>
